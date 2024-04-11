@@ -43,7 +43,7 @@
 
 namespace utils {
 
-struct directory_entry {
+extern struct directory_entry {
   // Fix.
   bool is_file() const { return true; }
 
@@ -53,7 +53,7 @@ struct directory_entry {
   uint8_t             d_type;
 
   std::string         d_name;
-} __attribute__((noipa));
+};
 
 class Directory : private std::vector<directory_entry> {
 public:
