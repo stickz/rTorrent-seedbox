@@ -43,7 +43,7 @@
 
 namespace utils {
 
-__attribute(used)__
+__attribute((used))__
 struct directory_entry {
   // Fix.
   bool is_file() const { return true; }
