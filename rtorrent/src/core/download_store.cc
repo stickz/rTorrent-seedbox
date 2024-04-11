@@ -192,7 +192,7 @@ DownloadStore::remove(Download* d) {
 
 // This also needs to check that it isn't a directory.
 bool
-not_correct_format(const utils::directory_entry& entry) {
+not_correct_format(const dir_utils::directory_entry& entry) {
   return !DownloadStore::is_correct_format(entry.d_name);
 }
 
