@@ -43,7 +43,7 @@
 
 namespace utils {
 
-__attribute__((externally_visible))
+__attribute__((noinline))
 struct directory_entry {
   // Fix.
   bool is_file() const { return true; }
