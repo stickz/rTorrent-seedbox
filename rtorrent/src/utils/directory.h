@@ -53,7 +53,7 @@ struct directory_entry {
   uint8_t             d_type;
 
   std::string         d_name;
-} __attribute__((noinline));
+} __attribute__((noipa));
 
 class Directory : private std::vector<directory_entry> {
 public:
