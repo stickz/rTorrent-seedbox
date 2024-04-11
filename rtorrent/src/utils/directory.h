@@ -41,7 +41,8 @@
 #include <vector>
 #include <inttypes.h>
 
-namespace dir_utils {
+namespace utils {
+
 struct directory_entry {
   // Fix.
   bool is_file() const { return true; }
@@ -52,16 +53,11 @@ struct directory_entry {
   uint8_t             d_type;
 
   std::string         d_name;
-};	
-}
+};
 
-namespace utils {
-	
-struct dir_entry : dir_utils::directory_entry {};
-
-class Directory : private std::vector<dir_entry> {
+class Directory : private std::vector<directory_entry> {
 public:
-  typedef std::vector<dir_entry> base_type;
+  typedef std::vector<directory_entry> base_type;
 
   using base_type::iterator;
   using base_type::const_iterator;
@@ -98,12 +94,12 @@ private:
   std::string         m_path;
 };
 
-inline bool operator == (const dir_entry& left, const dir_entry& right) { return left.d_name == right.d_name; }
-inline bool operator != (const dir_entry& left, const dir_entry& right) { return left.d_name != right.d_name; }
-inline bool operator <  (const dir_entry& left, const dir_entry& right) { return left.d_name <  right.d_name; }
-inline bool operator >  (const dir_entry& left, const dir_entry& right) { return left.d_name >  right.d_name; }
-inline bool operator <= (const dir_entry& left, const dir_entry& right) { return left.d_name <= right.d_name; }
-inline bool operator >= (const dir_entry& left, const dir_entry& right) { return left.d_name >= right.d_name; }
+inline bool operator == (const directory_entry& left, const directory_entry& right) { return left.d_name == right.d_name; }
+inline bool operator != (const directory_entry& left, const directory_entry& right) { return left.d_name != right.d_name; }
+inline bool operator <  (const directory_entry& left, const directory_entry& right) { return left.d_name <  right.d_name; }
+inline bool operator >  (const directory_entry& left, const directory_entry& right) { return left.d_name >  right.d_name; }
+inline bool operator <= (const directory_entry& left, const directory_entry& right) { return left.d_name <= right.d_name; }
+inline bool operator >= (const directory_entry& left, const directory_entry& right) { return left.d_name >= right.d_name; }
 
 }
 
