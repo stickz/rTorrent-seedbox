@@ -46,7 +46,7 @@
 
 #include "directory.h"
 
-namespace utils {
+namespace dir {
 
 // Keep this?
 bool
