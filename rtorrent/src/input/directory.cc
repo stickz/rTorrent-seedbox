@@ -34,47 +34,77 @@
 //           Skomakerveien 33
 //           3185 Skoppum, NORWAY
 
-#ifndef RTORRENT_INPUT_PATH_INPUT_H
-#define RTORRENT_INPUT_PATH_INPUT_H
+#include "config.h"
 
-#include <list>
-#include lt_tr1_functional
+#include <algorithm>
+#include <functional>
+
+#include <dirent.h>
+#include <sys/stat.h>
+#include <rak/path.h>
+#include <torrent/exceptions.h>
 
 #include "directory.h"
-#include "text_input.h"
 
 namespace input {
 
-class PathInput : public TextInput {
-public:
-  typedef Directory::iterator              directory_itr;
-  typedef std::pair<directory_itr, directory_itr> range_type;
+// Keep this?
+bool
+Directory::is_valid() const {
+  if (m_path.empty())
+    return false;
 
-  typedef std::function<void ()>                             slot_void;
-  typedef std::function<void (directory_itr, directory_itr)> slot_itr_itr;
-  typedef std::list<slot_void>                                    signal_void;
-  typedef std::list<slot_itr_itr>                                 signal_itr_itr;
+  DIR* d = opendir(rak::path_expand(m_path).c_str());
+  closedir(d);
 
-  PathInput();
-  virtual ~PathInput() {}
-
-  signal_void&        signal_show_next()  { return m_signal_show_next; }
-  signal_itr_itr&     signal_show_range() { return m_signal_show_range; }
-
-  virtual bool        pressed(int key);
-
-private:
-  void                receive_do_complete();
-
-  size_type           find_last_delim();
-  range_type          find_incomplete(dir::Directory& d, const std::string& f);
-
-  bool                m_showNext;
-
-  signal_void         m_signal_show_next;
-  signal_itr_itr      m_signal_show_range;
-};
-
+  return d;
 }
 
+bool
+Directory::update(int flags) {
+  if (m_path.empty())
+    throw torrent::input_error("Directory::update() tried to open an empty path.");
+
+  DIR* d = opendir(rak::path_expand(m_path).c_str());
+
+  if (d == NULL)
+    return false;
+
+  struct dirent* entry;
+#ifdef __sun__
+  struct stat s;
 #endif
+
+  while ((entry = readdir(d)) != NULL) {
+    if ((flags & update_hide_dot) && entry->d_name[0] == '.')
+      continue;
+
+    iterator itr = base_type::insert(end(), value_type());
+
+#ifdef __sun__
+    stat(entry->d_name, &s);
+    itr->d_fileno = entry->d_ino;
+    itr->d_reclen = 0;
+    itr->d_type = s.st_mode;
+#else
+    itr->d_fileno = entry->d_fileno;
+    itr->d_reclen = entry->d_reclen;
+    itr->d_type   = entry->d_type;
+#endif
+
+#ifdef DIRENT_NAMLEN_EXISTS_FOOBAR
+    itr->d_name   = std::string(entry->d_name, entry->d_name + entry->d_namlen);
+#else
+    itr->d_name   = std::string(entry->d_name);
+#endif
+  }
+
+  closedir(d);
+
+  if (flags & update_sort)
+    std::sort(begin(), end());
+
+  return true;
+}
+
+}

@@ -3,6 +3,8 @@ noinst_LIBRARIES = libsub_input.a
 libsub_input_a_SOURCES = \
 	bindings.cc \
 	bindings.h \
+	directory.cc \
+	directory.h \
 	input_event.cc \
 	input_event.h \
 	manager.cc \
