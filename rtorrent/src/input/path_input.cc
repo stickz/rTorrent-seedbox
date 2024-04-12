@@ -105,7 +105,7 @@ PathInput::receive_do_complete() {
   if (r.first == r.second)
     return; // Show some nice colors here.
 
-  std::string base = rak::make_base<std::string>(r.first, r.second, rak::const_mem_ref(&dir::directory_entry::d_name));
+  std::string base = rak::make_base<std::string>(r.first, r.second, rak::mem_ref(&dir::directory_entry::d_name));
 
   // Clear the path after the cursor to make this code cleaner. It's
   // not really nessesary to add the complexity just because someone
