@@ -74,7 +74,7 @@ PathInput::pressed(int key) {
 }
 
 struct _transform_filename {
-  void operator () (utils::directory_entry& entry) {
+  void operator () (dir::Directory_entry& entry) {
 #ifdef __sun__
     if (entry.d_type & S_IFDIR)
 #else
@@ -90,9 +90,9 @@ PathInput::receive_do_complete() {
 
   size_type dirEnd = find_last_delim();
 
-  utils::Directory dir(dirEnd != 0 ? str().substr(0, dirEnd) : "./");
+  dir::Directory dir(dirEnd != 0 ? str().substr(0, dirEnd) : "./");
   
-  if (!dir.update(utils::Directory::update_sort | utils::Directory::update_hide_dot) || dir.empty()) {
+  if (!dir.update(dir::Directory::update_sort | dir::Directory::update_hide_dot) || dir.empty()) {
     mark_dirty();
 
     return;
@@ -105,7 +105,7 @@ PathInput::receive_do_complete() {
   if (r.first == r.second)
     return; // Show some nice colors here.
 
-  std::string base = rak::make_base<std::string>(r.first, r.second, rak::const_mem_ref(&utils::directory_entry::d_name));
+  std::string base = rak::make_base<std::string>(r.first, r.second, rak::const_mem_ref(&dir::Directory_entry::d_name));
 
   // Clear the path after the cursor to make this code cleaner. It's
   // not really nessesary to add the complexity just because someone
@@ -118,7 +118,7 @@ PathInput::receive_do_complete() {
   mark_dirty();
 
   // Only emit if there are more than one option.
-  m_showNext = ++utils::Directory::iterator(r.first) != r.second;
+  m_showNext = ++dir::Directory::iterator(r.first) != r.second;
 
   if (m_showNext) {
     lt_log_print(torrent::LOG_UI_EVENTS, "path_input: show next page");
@@ -141,17 +141,17 @@ PathInput::find_last_delim() {
 }
 
 inline bool
-find_complete_compare(const utils::directory_entry& complete, const std::string& base) {
+find_complete_compare(const dir::Directory_entry& complete, const std::string& base) {
   return complete.d_name.compare(0, base.size(), base);
 }
 
 inline bool
-find_complete_not_compare(const utils::directory_entry& complete, const std::string& base) {
+find_complete_not_compare(const dir::Directory_entry& complete, const std::string& base) {
   return !complete.d_name.compare(0, base.size(), base);
 }
 
 PathInput::range_type
-PathInput::find_incomplete(utils::Directory& d, const std::string& f) {
+PathInput::find_incomplete(dir::Directory& d, const std::string& f) {
   range_type r;
 
   r.first  = std::find_if(d.begin(), d.end(), rak::bind2nd(std::ptr_fun(&find_complete_not_compare), f));

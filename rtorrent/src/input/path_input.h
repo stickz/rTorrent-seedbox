@@ -47,7 +47,7 @@ namespace input {
 
 class PathInput : public TextInput {
 public:
-  typedef utils::Directory::iterator              directory_itr;
+  typedef dir::Directory::iterator              directory_itr;
   typedef std::pair<directory_itr, directory_itr> range_type;
 
   typedef std::function<void ()>                             slot_void;
@@ -67,7 +67,7 @@ private:
   void                receive_do_complete();
 
   size_type           find_last_delim();
-  range_type          find_incomplete(utils::Directory& d, const std::string& f);
+  range_type          find_incomplete(dir::Directory& d, const std::string& f);
 
   bool                m_showNext;
 

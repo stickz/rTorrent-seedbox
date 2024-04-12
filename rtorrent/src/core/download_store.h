@@ -67,7 +67,7 @@ public:
   void                remove(Download* d);
 
   // Currently shows all entries in the correct format.
-  utils::Directory    get_formated_entries();
+  dir::Directory    get_formated_entries();
 
   static bool         is_correct_format(const std::string& f);
 

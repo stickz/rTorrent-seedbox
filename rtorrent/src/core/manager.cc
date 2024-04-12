@@ -376,16 +376,16 @@ Manager::try_create_download_from_meta_download(torrent::Object* bencode, const 
   f->commit();
 }
 
-utils::Directory
-path_expand_transform(std::string path, const utils::directory_entry& entry) {
+dir::Directory
+path_expand_transform(std::string path, const dir::Directory_entry& entry) {
   return path + entry.d_name;
 }
 
 // Move this somewhere better.
 void
 path_expand(std::vector<std::string>* paths, const std::string& pattern) {
-  std::vector<utils::Directory> currentCache;
-  std::vector<utils::Directory> nextCache;
+  std::vector<dir::Directory> currentCache;
+  std::vector<dir::Directory> nextCache;
 
   rak::split_iterator_t<std::string> first = rak::split_iterator(pattern, '/');
   rak::split_iterator_t<std::string> last  = rak::split_iterator(pattern);
@@ -395,13 +395,13 @@ path_expand(std::vector<std::string>* paths, const std::string& pattern) {
 
   // Check for initial '/' that indicates the root.
   if ((*first).empty()) {
-    currentCache.push_back(utils::Directory("/"));
+    currentCache.push_back(dir::Directory("/"));
     ++first;
   } else if (rak::trim(*first) == "~") {
-    currentCache.push_back(utils::Directory("~"));
+    currentCache.push_back(dir::Directory("~"));
     ++first;
   } else {
-    currentCache.push_back(utils::Directory("."));
+    currentCache.push_back(dir::Directory("."));
   }
 
   // Might be an idea to use depth-first search instead.
@@ -414,11 +414,11 @@ path_expand(std::vector<std::string>* paths, const std::string& pattern) {
 
     // Special case for ".."?
 
-    for (std::vector<utils::Directory>::iterator itr = currentCache.begin(); itr != currentCache.end(); ++itr) {
+    for (std::vector<dir::Directory>::iterator itr = currentCache.begin(); itr != currentCache.end(); ++itr) {
       // Only include filenames starting with '.' if the pattern
       // starts with the same.
-      itr->update((r.pattern()[0] != '.') ? utils::Directory::update_hide_dot : 0);
-      itr->erase(std::remove_if(itr->begin(), itr->end(), rak::on(rak::mem_ref(&utils::directory_entry::d_name), std::not1(r))), itr->end());
+      itr->update((r.pattern()[0] != '.') ? dir::Directory::update_hide_dot : 0);
+      itr->erase(std::remove_if(itr->begin(), itr->end(), rak::on(rak::mem_ref(&dir::Directory_entry::d_name), std::not1(r))), itr->end());
 
       std::transform(itr->begin(), itr->end(), std::back_inserter(nextCache), rak::bind1st(std::ptr_fun(&path_expand_transform), itr->path() + (itr->path() == "/" ? "" : "/")));
     }
@@ -427,7 +427,7 @@ path_expand(std::vector<std::string>* paths, const std::string& pattern) {
     currentCache.swap(nextCache);
   }
 
-  std::transform(currentCache.begin(), currentCache.end(), std::back_inserter(*paths), std::mem_fun_ref(&utils::Directory::path));
+  std::transform(currentCache.begin(), currentCache.end(), std::back_inserter(*paths), std::mem_fun_ref(&dir::Directory::path));
 }
 
 bool

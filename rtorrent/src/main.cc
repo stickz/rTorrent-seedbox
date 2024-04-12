@@ -120,9 +120,9 @@ parse_options(int argc, char** argv) {
 
 void
 load_session_torrents() {
-  utils::Directory entries = control->core()->download_store()->get_formated_entries();
+  dir::Directory entries = control->core()->download_store()->get_formated_entries();
 
-  for (utils::Directory::const_iterator first = entries.begin(), last = entries.end(); first != last; ++first) {
+  for (dir::Directory::const_iterator first = entries.begin(), last = entries.end(); first != last; ++first) {
     // We don't really support session torrents that are links. These
     // would be overwritten anyway on exit, and thus not really be
     // useful.

@@ -43,7 +43,22 @@
 
 namespace utils {
 
-extern struct directory_entry {
+struct directory_entry {
+  // Fix.
+  bool is_file() const { return true; }
+
+  // The name and types should match POSIX.
+  uint32_t            d_fileno;
+  uint32_t            d_reclen; //Not used. Messes with Solaris.
+  uint8_t             d_type;
+
+  std::string         d_name;
+};
+}
+
+namespace dir {
+
+struct directory_entry {
   // Fix.
   bool is_file() const { return true; }
 
