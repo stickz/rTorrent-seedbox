@@ -43,7 +43,7 @@
 
 namespace input {
 
-struct directory_entry {
+struct input_directory_entry {
   // Fix.
   bool is_file() const { return true; }
 
@@ -55,9 +55,9 @@ struct directory_entry {
   std::string         d_name;
 };
 
-class Directory : private std::vector<directory_entry> {
+class Directory : private std::vector<input_directory_entry> {
 public:
-  typedef std::vector<directory_entry> base_type;
+  typedef std::vector<input_directory_entry> base_type;
 
   using base_type::iterator;
   using base_type::const_iterator;
@@ -94,12 +94,12 @@ private:
   std::string         m_path;
 };
 
-inline bool operator == (const directory_entry& left, const directory_entry& right) { return left.d_name == right.d_name; }
-inline bool operator != (const directory_entry& left, const directory_entry& right) { return left.d_name != right.d_name; }
-inline bool operator <  (const directory_entry& left, const directory_entry& right) { return left.d_name <  right.d_name; }
-inline bool operator >  (const directory_entry& left, const directory_entry& right) { return left.d_name >  right.d_name; }
-inline bool operator <= (const directory_entry& left, const directory_entry& right) { return left.d_name <= right.d_name; }
-inline bool operator >= (const directory_entry& left, const directory_entry& right) { return left.d_name >= right.d_name; }
+inline bool operator == (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name == right.d_name; }
+inline bool operator != (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name != right.d_name; }
+inline bool operator <  (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name <  right.d_name; }
+inline bool operator >  (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name >  right.d_name; }
+inline bool operator <= (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name <= right.d_name; }
+inline bool operator >= (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name >= right.d_name; }
 
 }
 
