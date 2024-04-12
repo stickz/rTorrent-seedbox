@@ -76,26 +76,26 @@ Directory::update(int flags) {
 #endif
 
   while ((entry = readdir(d)) != NULL) {
-    if ((flags & update_hide_dot) && entry->d_name[0] == '.')
+    if ((flags & update_hide_dot) && entry->i_name[0] == '.')
       continue;
 
     iterator itr = base_type::insert(end(), value_type());
 
 #ifdef __sun__
-    stat(entry->d_name, &s);
-    itr->d_fileno = entry->d_ino;
-    itr->d_reclen = 0;
-    itr->d_type = s.st_mode;
+    stat(entry->i_name, &s);
+    itr->i_fileno = entry->i_ino;
+    itr->i_reclen = 0;
+    itr->i_type = s.st_mode;
 #else
-    itr->d_fileno = entry->d_fileno;
-    itr->d_reclen = entry->d_reclen;
-    itr->d_type   = entry->d_type;
+    itr->i_fileno = entry->i_fileno;
+    itr->i_reclen = entry->i_reclen;
+    itr->i_type   = entry->i_type;
 #endif
 
 #ifdef DIRENT_NAMLEN_EXISTS_FOOBAR
-    itr->d_name   = std::string(entry->d_name, entry->d_name + entry->d_namlen);
+    itr->i_name   = std::string(entry->i_name, entry->i_name + entry->i_namlen);
 #else
-    itr->d_name   = std::string(entry->d_name);
+    itr->i_name   = std::string(entry->i_name);
 #endif
   }
 
