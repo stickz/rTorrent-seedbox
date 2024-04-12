@@ -48,11 +48,11 @@ struct input_directory_entry {
   bool is_file() const { return true; }
 
   // The name and types should match POSIX.
-  uint32_t            d_fileno;
-  uint32_t            d_reclen; //Not used. Messes with Solaris.
-  uint8_t             d_type;
+  uint32_t            i_fileno;
+  uint32_t            i_reclen; //Not used. Messes with Solaris.
+  uint8_t             i_type;
 
-  std::string         d_name;
+  std::string         i_name;
 };
 
 class Directory : private std::vector<input_directory_entry> {
@@ -94,12 +94,12 @@ private:
   std::string         m_path;
 };
 
-inline bool operator == (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name == right.d_name; }
-inline bool operator != (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name != right.d_name; }
-inline bool operator <  (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name <  right.d_name; }
-inline bool operator >  (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name >  right.d_name; }
-inline bool operator <= (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name <= right.d_name; }
-inline bool operator >= (const input_directory_entry& left, const input_directory_entry& right) { return left.d_name >= right.d_name; }
+inline bool operator == (const input_directory_entry& left, const input_directory_entry& right) { return left.i_name == right.i_name; }
+inline bool operator != (const input_directory_entry& left, const input_directory_entry& right) { return left.i_name != right.i_name; }
+inline bool operator <  (const input_directory_entry& left, const input_directory_entry& right) { return left.i_name <  right.i_name; }
+inline bool operator >  (const input_directory_entry& left, const input_directory_entry& right) { return left.i_name >  right.i_name; }
+inline bool operator <= (const input_directory_entry& left, const input_directory_entry& right) { return left.i_name <= right.i_name; }
+inline bool operator >= (const input_directory_entry& left, const input_directory_entry& right) { return left.i_name >= right.i_name; }
 
 }
 
