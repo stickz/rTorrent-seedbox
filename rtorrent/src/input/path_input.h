@@ -67,7 +67,7 @@ private:
   void                receive_do_complete();
 
   size_type           find_last_delim();
-  range_type          find_incomplete(dir::Directory& d, const std::string& f);
+  range_type          find_incomplete(Directory& d, const std::string& f);
 
   bool                m_showNext;
 
