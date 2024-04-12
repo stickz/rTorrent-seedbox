@@ -41,7 +41,7 @@
 
 #include "utils/lockfile.h"
 
-namespace utils {
+namespace dir {
   class Directory;
 }
 
