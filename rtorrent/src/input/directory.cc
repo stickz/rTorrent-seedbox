@@ -76,7 +76,7 @@ Directory::update(int flags) {
 #endif
 
   while ((entry = readdir(d)) != NULL) {
-    if ((flags & update_hide_dot) && entry->i_name[0] == '.')
+    if ((flags & update_hide_dot) && entry->d_name[0] == '.')
       continue;
 
     iterator itr = base_type::insert(end(), value_type());

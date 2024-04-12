@@ -76,11 +76,11 @@ PathInput::pressed(int key) {
 struct _transform_filename {
   void operator () (input_directory_entry& entry) {
 #ifdef __sun__
-    if (entry.d_type & S_IFDIR)
+    if (entry.i_type & S_IFDIR)
 #else
-    if (entry.d_type == DT_DIR)
+    if (entry.i_type == DT_DIR)
 #endif
-      entry.d_name += '/';
+      entry.i_name += '/';
   }
 };
 
