@@ -290,7 +290,7 @@ DownloadList::receive_view_input(Input type) {
   input->signal_show_next().push_back(std::bind(&ElementStringList::next_screen, esl));
 
   input->signal_show_range().push_back(std::bind(&DownloadList::activate_display, this, DISPLAY_STRING_LIST));
-  input->signal_show_range().push_back(std::bind(&ElementStringList::set_range_dirent<dir::Directory::iterator>,
+  input->signal_show_range().push_back(std::bind(&ElementStringList::set_range_dirent<input::Directory::iterator>,
                                                       esl,
                                                       std::placeholders::_1,
                                                       std::placeholders::_2));
