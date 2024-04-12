@@ -142,12 +142,12 @@ PathInput::find_last_delim() {
 
 inline bool
 find_complete_compare(const input_directory_entry& complete, const std::string& base) {
-  return complete.d_name.compare(0, base.size(), base);
+  return complete.i_name.compare(0, base.size(), base);
 }
 
 inline bool
 find_complete_not_compare(const input_directory_entry& complete, const std::string& base) {
-  return !complete.d_name.compare(0, base.size(), base);
+  return !complete.i_name.compare(0, base.size(), base);
 }
 
 PathInput::range_type
