@@ -192,18 +192,18 @@ DownloadStore::remove(Download* d) {
 
 // This also needs to check that it isn't a directory.
 bool
-not_correct_format(const utils::directory_entry& entry) {
+not_correct_format(const dir::Directory_entry& entry) {
   return !DownloadStore::is_correct_format(entry.d_name);
 }
 
-utils::Directory
+dir::Directory
 DownloadStore::get_formated_entries() {
   if (!is_enabled())
-    return utils::Directory();
+    return dir::Directory();
 
-  utils::Directory d(m_path);
+  dir::Directory d(m_path);
 
-  if (!d.update(utils::Directory::update_hide_dot))
+  if (!d.update(dir::Directory::update_hide_dot))
     throw torrent::storage_error("core::DownloadStore::update() could not open directory \"" + m_path + "\"");
 
   d.erase(std::remove_if(d.begin(), d.end(), std::ptr_fun(&not_correct_format)), d.end());
